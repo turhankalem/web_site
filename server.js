@@ -4,12 +4,12 @@ const fs = require('fs');
 const chokidar = require('chokidar');
 const http = require('http');
 const { Server } = require('socket.io');
-
+const fetch = require('node-fetch');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: ["http://localhost:3000", "https://website-backend-mi4i.onrender.com"],
         methods: ["GET", "POST"]
     }
 });
@@ -78,7 +78,19 @@ app.get('/api/data', (req, res) => {
 app.get('/', (req, res) => {
     res.json({ message: "Backend WebSocket ile çalışıyor!" });
 });
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.json({ status: 'alive', timestamp: new Date() });
+});
 
 server.listen(PORT, () => {
     console.log(`Server http://localhost:${PORT} adresinde WebSocket ile çalışıyor`);
+	
+	const RENDER_URL = process.env.RENDER_EXTERNAL_URL || 'BACKEND-URL-BURAYA';
+    
+    setInterval(() => {
+        console.log('Pinging self to stay alive...');
+        fetch(`${RENDER_URL}/health`)
+            .catch(err => console.log('Ping error:', err));
+    }, 14 * 60 * 1000);
 });
