@@ -9,14 +9,16 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:3000", "https://website-backend-mi4i.onrender.com"],
+        origin: ["http://localhost:3000", "https://sweet-klepon-408619.netlify.app"],
         methods: ["GET", "POST"]
     }
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:3000", "https://sweet-klepon-408619.netlify.app"]
+}));
 app.use(express.json());
 
 // Text dosyası yolu
@@ -86,7 +88,7 @@ app.get('/health', (req, res) => {
 server.listen(PORT, () => {
     console.log(`Server http://localhost:${PORT} adresinde WebSocket ile çalışıyor`);
 	
-	const RENDER_URL = process.env.RENDER_EXTERNAL_URL || 'BACKEND-URL-BURAYA';
+    const RENDER_URL = process.env.RENDER_EXTERNAL_URL || 'https://website-backend-mi4i.onrender.com';
     
     setInterval(() => {
         console.log('Pinging self to stay alive...');
