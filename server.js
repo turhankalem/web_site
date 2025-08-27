@@ -9,7 +9,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:3000", "https://sweet-klepon-408619.netlify.app"],
+        origin: ["http://localhost:3000", "https://inspiring-granita-dc6afc.netlify.app"],
         methods: ["GET", "POST"]
     }
 });
@@ -17,7 +17,7 @@ const io = new Server(server, {
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: ["http://localhost:3000", "https://sweet-klepon-408619.netlify.app"]
+    origin: ["http://localhost:3000", "https://inspiring-granita-dc6afc.netlify.app"]
 }));
 app.use(express.json());
 
